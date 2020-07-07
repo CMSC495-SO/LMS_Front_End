@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 /*imported components*/
 import { AppComponent } from './app.component';
-import { SampleComponent } from './component/sample/sample.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { AppToolbarComponent } from './component/app-toolbar/app-toolbar.component';
 import { HomeComponent } from './pages/home/home.component';

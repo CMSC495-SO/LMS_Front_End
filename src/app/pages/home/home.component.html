@@ -1,0 +1,18 @@
+<div class="component-container">
+  <div class="sidebar-container ">
+    <div class="sidebar-header">
+      <div class="bar-title">Main Menu</div>
+    </div>
+    <div class="divider horizontal"></div>
+    <div class="sidebar-body ">
+      <button class="button" (click)="openLibraryComponent('catalog')">Global Catalog</button>
+      <button class="button" *ngIf="loggedIn">{{userData.firstName}}'s Catalog</button>
+      <button class="button" *ngIf="user.isAdmin || user.isLibrarian" (click)="showFeatureUnavailable()">User Manager</button>
+      <button class="button" *ngIf="user.isAdmin || user.isLibrarian" (click)="showFeatureUnavailable()">Catalog Manager</button>
+      <button class="button" *ngIf="user.isAdmin || user.isLibrarian" (click)="showFeatureUnavailable()">Notification's Manager</button>
+    </div>
+  </div>
+  <div class="render-container">
+    <ng-template gadget-position></ng-template>
+  </div>
+</div>

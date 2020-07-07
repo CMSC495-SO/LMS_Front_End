@@ -1,0 +1,74 @@
+<div class="controls" >
+  <div class="left"></div>
+  <div class="middle"><input ngModel="txtSearchInput" type="search" title="search" placeholder="Search the global catalog" [ngModel]="txtSearchInput" class="txtSearchInput"> <button (click)="handleSearch()">Search</button></div>
+  <div class="right"></div>
+</div>
+<div class="gadget-content">
+  <div class="list-items">
+    <ng-template *ngIf="catalogData.length === 0; else elseBlock">
+      <mat-card>
+        <mat-card-title>No data found.</mat-card-title>
+        <mat-card-content>Data Unavailable</mat-card-content>
+        <mat-card-actions></mat-card-actions>
+      </mat-card>
+    </ng-template>
+    <ng-template #elseBlock>
+      <mat-card *ngFor="let item of catalogData;">
+        <mat-card-title>{{item.title}}</mat-card-title>
+        <mat-card-content>
+          <div class="card-content-display">
+            <div class="left">
+              <div>Author: <span>{{item.author}}</span></div>
+              <div>Subject: <span>{{item.subject}}</span></div>
+              <div>Date Added: <span>{{item.dateAdded}}</span></div>
+              <div>Publisher: <span>-</span></div>
+            </div>
+            <div class="right">
+              <div>ISBN: <span>-</span></div>
+              <div>Status: <span>{{item.status}}</span></div>
+              <div>Format: <span>{{item.format}}</span></div>
+              <div>Pages: <span>{{item.pages}}</span></div>
+              <div>Price: <span>{{item.price}}</span></div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <!--buttons should be here-->
+        </mat-card-actions>
+      </mat-card>
+    </ng-template>
+  </div>
+  <!--<div class="grid">
+    <div class="mat-elevation-z8">
+      <table>
+        <thead>
+        <tr>
+          <ng-template *ngFor="let column of displayedColumns">
+            <th>
+              <ng-template *ngIf="column === 'id'; else elseBlock">
+                <input class="chkSelectAll" (change)="handleSelectAll()" type="checkbox" title="Select All"/>
+              </ng-template>
+              <ng-template #elseBlock>
+                {{column}}
+              </ng-template>
+            </th>
+          </ng-template>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template *ngIf="catalogData.length > 0; else elseRow">
+          <tr>
+          </tr>
+        </ng-template>
+        <ng-template #elseRow>
+          <tr>
+            <td colspan="8">
+              No Data Added
+            </td>
+          </tr>
+        </ng-template>
+        </tbody>
+      </table>
+    </div>
+  </div>-->
+</div>

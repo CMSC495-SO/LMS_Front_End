@@ -1,0 +1,68 @@
+:host {
+  height: 100%;
+}
+
+.component-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.component-container .sidebar-container {
+  background: #fff;
+  flex: .30;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.component-container .sidebar-container .sidebar-header {
+  height: 50px;
+}
+
+.component-container .sidebar-container .sidebar-header .bar-title {
+  font-size: 15pt;
+  margin: 10px 5px 0 0;
+  text-align: right;
+  line-height: 25px;
+  height: 100%;
+  box-sizing: border-box;
+  padding-right: 10px;
+  padding-top: 10px;
+}
+
+.component-container .sidebar-container .sidebar-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.component-container .sidebar-container .sidebar-body button {
+  margin: 5px;
+  background-color: transparent;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  line-height: 30px;
+  font-size: 12pt;
+  padding: 10px;
+}
+
+.component-container .sidebar-container .sidebar-body button:hover,
+.component-container .sidebar-container .sidebar-body button:focus{
+  text-decoration: underline;
+  font-size: 14pt;
+  border-color: var(--active-highlight);
+}
+
+.component-container .divider {
+  height: 1px;
+  margin: 0 0 5px 0;
+  background-color: grey;
+}
+
+.component-container .render-container {
+  flex: 2;
+}

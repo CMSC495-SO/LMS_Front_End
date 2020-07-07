@@ -1,0 +1,57 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: white;
+  margin-bottom: 5px;
+  border: 1px solid var(--main-background-color);
+  min-height: 40px;
+  flex: .1;
+  padding: 10px;
+}
+
+.controls .left,
+.controls .middle,
+.controls .right{
+  flex: 1;
+}
+
+.controls .middle input.txtSearchInput {
+  margin: 10px;
+  height: 30px;
+  padding-left: 10px;
+}
+
+.gadget-content {
+  height: 100%;
+  background-color: var(--main-background-color);
+  border: 1px solid var(--menu-header-background);
+  flex: 2;
+  overflow: auto;
+}
+
+.gadget-content .list-items {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.gadget-content .list-items mat-card {
+  margin-bottom: 10px;
+}
+
+.gadget-content .card-content-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}

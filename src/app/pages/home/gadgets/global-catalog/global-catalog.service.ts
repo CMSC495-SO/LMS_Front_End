@@ -7,7 +7,7 @@ import {Observable, throwError} from "rxjs/index";
 })
 export class GlobalCatalogService {
   allBookUrl = {
-    basePath: 'http://localhost:3000/lib/library',
+    basePath: 'https://lib-management-backend.herokuapp.com/',
     getBooks: '/books'
   };
 

@@ -8,7 +8,7 @@ import {Observable, throwError} from "rxjs/index";
 export class LoginService {
   [x: string]: any;
   allLoginUrl = {
-    basePath: 'http://localhost:3000/lib/library',
+    basePath: 'https://lib-management-backend.herokuapp.com/lib/library',
     findUser: '/users/checkUser',
     loginUrl: '/login',
     signUp: '/users'

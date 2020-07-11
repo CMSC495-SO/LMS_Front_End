@@ -55,6 +55,16 @@ export class LoginComponent {
 
   performUserSignUp() {
     /*looking for a time stamp for when the user was added as well here.*/
+    this.service.signUp({userName:this.userName, password: this.password, emailAdress: this.emailAddress, firstName: this.firstName, lastName: this.lastName}).subscribe((response:any) => {
+      let storage = new StorageManager({});
+      if (!response.matched) {
+        this.updateMessage(response.message);
+        return ;
+      }
+      //need to store response data
+      storage.add('userdata', JSON.stringify(response.user));
+      this.dialogRef.close();
+    });
   }
 
   updateMessage(message) {

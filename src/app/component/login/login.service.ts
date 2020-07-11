@@ -6,10 +6,12 @@ import {Observable, throwError} from "rxjs/index";
   providedIn: 'root'
 })
 export class LoginService {
+  [x: string]: any;
   allLoginUrl = {
     basePath: 'http://localhost:3000/lib/library',
     findUser: '/users/checkUser',
-    loginUrl: '/login'
+    loginUrl: '/login',
+    signUp: '/users'
   };
 
   user:object = null;
@@ -27,15 +29,23 @@ export class LoginService {
   constructor(private http: HttpClient) {
   }
 
-  checkUserNameValid(userNameParams) {
+  checkUserNameValid(userNameParams: { userName: string; }) {
     return this.http.get(this.allLoginUrl.basePath + this.allLoginUrl.findUser, {params: userNameParams})
   }
 
-  loginUser(data) {
+  loginUser(data: { userName: string; password: string; }) {
     return this.http.post(this.allLoginUrl.basePath + this.allLoginUrl.loginUrl, {params: data});
   }
 
-  setUserData(data) {
+  signUp(data: {
+      userName: string;
+      // return an observable with a user-facing error message
+      password: string; emailAdress: string; firstName: string; lastName: string;
+    }){
+    return this.http.post(this.allLoginUrl.basePath + this.allLoginUrl.signUp, {params: data}); //signUpUrl
+  }
+
+  setUserData(data: object) {
     if (!this.user) {
       this.user = data;
     }
@@ -46,7 +56,7 @@ export class LoginService {
   }
 
   /*todo: Future use*/
-  handleError(response) {
+  handleError(response: { error: { message: any; }; status: any; }) {
     if (response.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', response.error.message);

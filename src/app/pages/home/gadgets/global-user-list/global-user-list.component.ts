@@ -9,7 +9,7 @@ import {MatDialog} from '@angular/material/dialog';
 @Component({
   selector: 'app-global-user-list',
   templateUrl: './global-user-list.component.html',
-  styleUrls: ['./global-user-list.component.css']
+  styleUrls: ['./global-user-list.component.css', '../../../../component/base-gadget/base-gadget.component.css']
 })
 export class GlobalUserListComponent extends BaseGadgetComponent implements OnInit {
   allInUserCatalog: BookData[];

@@ -18,6 +18,10 @@ export class StorageManager {
   }
 
   getStorageItem(key: string) {
+    if (!this.getStorage().length) {
+      return null;
+    }
+
     return this.getStorage().getItem(key);
   }
 

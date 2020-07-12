@@ -46,7 +46,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoggedIn = this.service.getUserData().hasOwnProperty('userName');
+    const item = this.service.getUserData();
+
+    this.isLoggedIn = item && item.hasOwnProperty('userName');
   }
 
   performLogoutAction() {

@@ -1,0 +1,24 @@
+<div mat-dialog-title>
+  Edit User Data
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <form class="user-info">
+    <mat-form-field>
+      <input type="text" matInput class="txtFirstName" placeholder="First Name" name="firstName" [(ngModel)]="data.firstName">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput class="txtLastName" placeholder="Last Name" name="lastName" [(ngModel)]="data.lastName">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="email" matInput class="txtEmail" placeholder="user@email.com" name="emailAddress" [(ngModel)]="data.emailAddress">
+    </mat-form-field>
+  </form>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+  <div class="button-group-area">
+    <button mat-button (click)="onClose()">Cancel</button>
+    <button mat-button (click)="completeEdit()" cdkFocusInitial>Save</button>
+  </div>
+</div>

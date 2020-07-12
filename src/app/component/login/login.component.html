@@ -1,6 +1,7 @@
 <div mat-dialog-title>
   {{title}}
 </div>
+<mat-divider></mat-divider>
 <div mat-dialog-content *ngIf="!isLoggedIn; else signOutTemplate">
   <div class="tab-controls">
     <div [ngClass]="{'tab': true, 'active': activeTab === 'login'}" (click)="setActiveTab('login')">Login</div>
@@ -8,43 +9,63 @@
   </div>
   <div class="messages" *ngIf="showMessage">{{message}}</div>
   <div class="tab-content" *ngIf="activeTab === 'login'">
-    <div class="user-info-section">
-      <input type="text" matInput class="txtUsername" placeholder="UserName" [(ngModel)]="userName">
-      <input type="password" matInput class="txtPassword" placeholder="Password" [(ngModel)]="password">
-    </div>
+    <form class="user-info-section">
+      <mat-form-field>
+        <input type="text" matInput class="txtUsername" placeholder="UserName" name="userName" [(ngModel)]="userName">
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" matInput class="txtPassword" placeholder="Password" name="password" [(ngModel)]="password">
+      </mat-form-field>
+    </form>
+    <mat-divider></mat-divider>
     <div class="button-group-area">
       <button mat-button (click)="onClose()">Cancel</button>
-      <button mat-button [disabled]="loginFieldsValid" (click)="performLoginAction()">Login</button>
+      <button mat-button [disabled]="loginFieldsValid" (click)="performLoginAction()" cdkFocusInitial>Login</button>
     </div>
   </div>
   <div class="tab-content" *ngIf="activeTab === 'sign'">
-    <div class="user-info-section">
-      <div>
-        <input type="text" matInput class="txtUsername" (blur)="checkUserName()" placeholder="UserName"
-               [(ngModel)]="userName">
-        <div *ngIf="userName.length > 0"
-             [ngClass]="{'validationBadge': true, 'isValid': userNameValid, 'notValid': !userNameValid}"></div>
+    <form class="user-info-section">
+      <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <mat-form-field style="flex: 1;">
+          <input type="text" matInput class="txtUsername" (blur)="checkUserName()" name="userName" placeholder="User Name"
+                 [(ngModel)]="userName">
+        </mat-form-field>
+        <div *ngIf="userName.length > 0" [ngClass]="{'validationBadge': true, 'isValid': userNameValid, 'notValid': !userNameValid}" [title]="userNameValid ? 'User name is valid' : 'User name is invalid'"></div>
       </div>
-      <input type="password" matInput class="txtPassword" placeholder="Password" [(ngModel)]="password">
-      <input type="text" matInput class="txtFirstName" placeholder="First Name" [(ngModel)]="firstName">
-      <input type="text" matInput class="txtLastName" placeholder="Last Name" [(ngModel)]="lastName">
-      <input type="text" matInput class="txtEmail" placeholder="Email" [(ngModel)]="emailAddress">
-    </div>
+      <mat-form-field>
+        <input type="password" matInput class="txtPassword" placeholder="Password" [(ngModel)]="password"
+               name="password">
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text" matInput class="txtFirstName" placeholder="First Name" name="firstName"
+               [(ngModel)]="firstName">
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text" matInput class="txtLastName" placeholder="Last Name" name="lastName" [(ngModel)]="lastName">
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text" matInput class="txtEmail" placeholder="Email" name="emailAddress" [(ngModel)]="emailAddress">
+      </mat-form-field>
+    </form>
+    <mat-divider></mat-divider>
     <div class="button-group-area">
       <button mat-button (click)="onClose()">Cancel</button>
-      <button mat-button [disabled]="signUpFieldsValid" (click)="performUserSignUp()">Sign Up</button>
+      <button mat-button [disabled]="signUpFieldsValid" (click)="performUserSignUp()" cdkFocusInitial>Sign Up</button>
     </div>
   </div>
 </div>
 
 <ng-template #signOutTemplate>
   <div mat-dialog-content>
-      <div class="logout-section">
-        Would you like to log out?
-      </div>
-      <div class="button-group-area">
-        <button mat-button (click)="onClose()">Cancel</button>
-        <button mat-button (click)="performLogoutAction()">Logout</button>
-      </div>
+    <div class="logout-section">
+      Would you like to log out?
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions>
+    <div class="button-group-area">
+      <button mat-button (click)="onClose()">Cancel</button>
+      <button mat-button (click)="performLogoutAction()" cdkFocusInitial>Logout</button>
+    </div>
   </div>
 </ng-template>

@@ -8,6 +8,7 @@ import {GlobalUserListComponent} from './gadgets/global-user-list/global-user-li
 
 import {LoginService} from 'src/app/component/login/login.service';
 import {MessageDialogComponent} from '../../tools/message-dialog/message-dialog.component';
+import {AdminUserManagerComponent} from './gadgets/admin-user-manager/admin-user-manager.component';
 
 @Component({
   selector: 'app-home',
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit {
     if (this.userData) {
       this.loginService.loggedIn.emit(this.userData);
       this.loggedIn = true;
-      this.loginService.setUserData(this.userData);
+      this.loginService.setUserData();
       if (this.userData.hasOwnProperty('roles')) {
         this.user.isAdmin = this.userData.roles.indexOf('admin') !== -1;
         this.user.isLibrarian = this.userData.roles.indexOf('librarian') !== -1;
@@ -102,8 +103,11 @@ export class HomeComponent implements OnInit {
 
     switch (componentName) {
       case 'bookManager':
-      case 'userManager':
         this.showAlertMessage('Feature is currently in development, please try again later', 'Feature currently unavailable');
+        break;
+      case 'userManager':
+        this.activeComponent = componentName;
+        this.loadComponent(AdminUserManagerComponent);
         break;
       case 'userCatalog':
         this.activeComponent = componentName;

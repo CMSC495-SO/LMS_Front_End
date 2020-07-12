@@ -1,1 +1,77 @@
-<p>admin-user-manager works!</p>
+<div class="controls">
+  <div class="left"></div>
+  <div class="middle">
+    <div class="searchBySection">
+      <label>
+        Search By:
+        <select title="Search by:" [(ngModel)]="searchBy">
+          <option value="userName" selected>User Name</option>
+          <option value="firstName">First Name</option>
+          <option value="lastName">Last Name</option>
+          <option value="emailAddress">Email</option>
+        </select>
+      </label>
+    </div>
+    <div class="searchInputSection">
+      <input ngModel="txtSearchInput" type="search" title="search" (keyup)="handleSearchKeyup($event)"
+             placeholder="Search user listings" [(ngModel)]="txtSearchUsers" class="txtSearchInput">
+      <button mat-icon-button (click)="handleSearch()"><span class="material-icons">search</span></button>
+    </div>
+  </div>
+  <div class="right">
+    <div>
+      User catalog items found: {{renderData && renderData.length}}
+    </div>
+  </div>
+</div>
+<div class="gadget-content">
+  <div class="list-items">
+    <mat-card *ngIf="!renderData || renderData.length === 0; else elseBlock">
+      <mat-card-title>No Users Found.</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>Data Unavailable.</mat-card-content>
+      <mat-card-actions></mat-card-actions>
+    </mat-card>
+    <ng-template #elseBlock>
+      <mat-card *ngFor="let item of renderData;">
+        <mat-card-title>{{item.lastName}}, {{item.firstName}}.</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="card-content-display">
+            <div class="left">
+              <div>User Name: <span>{{item.userName}}</span></div>
+              <div>Account created on: <span>{{getDate(item.dateAdded)}}</span></div>
+              <div>Account Modified on: <span>{{getDate(item.dateModified)}}</span></div>
+              <div>Email: <span>{{item.emailAddress}}</span></div>
+            </div>
+            <div class="right">
+              <div>
+                <button mat-raised-button color="primary" (click)="addUserRole('admin', item._id)" *ngIf="!item.hasOwnProperty('roles') || item.roles.indexOf('admin') === -1">Make User Admin</button>
+              </div>
+              <div>
+                <button mat-raised-button color="warn" (click)="removeUserRole('admin', item._id)" *ngIf="item.hasOwnProperty('roles') && item.roles.indexOf('admin') !== -1">Revoke Admin Access</button>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" (click)="addUserRole('member', item._id)" *ngIf="!item.hasOwnProperty('roles') || item.roles.indexOf('member') === -1">Add Member Role</button>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+          <div class="item">
+            <button mat-raised-button color="primary" class="checkout" (click)="editItem(item._id)">
+              Edit
+            </button>
+          </div>
+          <!--<div class="item">
+            <button mat-raised-button color="error" class="checkout" (click)="deleteItem(item._id)">
+              Delete
+            </button>
+          </div>-->
+        </mat-card-actions>
+      </mat-card>
+    </ng-template>
+  </div>
+</div>
+

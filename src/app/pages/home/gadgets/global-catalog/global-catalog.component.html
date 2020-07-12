@@ -1,19 +1,23 @@
 <div class="controls">
   <div class="left"></div>
   <div class="middle">
-    <label>
-      Search By:
-      <select title="Search by:" [(ngModel)]="searchBy">
-        <option value="title" selected>Title</option>
-        <option value="status">Status</option>
-        <option value="subject">Genre</option>
-      </select>
-    </label>
-    <input matInput [(ngModel)]="txtSearchInput" value="{{txtSearchInput}}" type="search" title="search"
-           placeholder="Search the global catalog" (keyup)="handleSearchKeyup($event)" class="txtSearchInput">
-    <button mat-icon-button (click)="handleSearch()" title="Search">
-      <span class="material-icons">search</span>
-    </button>
+    <div class="searchBySection">
+      <label>
+        Search By:
+        <select title="Search by:" [(ngModel)]="searchBy">
+          <option value="title" selected>Title</option>
+          <option value="status">Status</option>
+          <option value="subject">Genre</option>
+        </select>
+      </label>
+    </div>
+    <div class="searchInputSection">
+      <input [(ngModel)]="txtSearchInput" value="{{txtSearchInput}}" type="search" title="search"
+             placeholder="Search the global catalog" (keyup)="handleSearchKeyup($event)" class="txtSearchInput">
+      <button mat-icon-button (click)="handleSearch()" title="Search">
+        <span class="material-icons">search</span>
+      </button>
+    </div>
   </div>
   <div class="right">
     <div>Catalog items found: {{catalogData && catalogData.length}}</div>

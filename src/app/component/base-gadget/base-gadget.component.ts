@@ -26,7 +26,7 @@ export class BaseGadgetComponent implements OnInit {
   }
 
   showAlertMessage(msg, tit) {
-    return this.dialog.open(MessageDialogComponent, {data: {title: tit, message: msg}});
+    return this.dialog.open(MessageDialogComponent, {data: {title: tit, message: msg}, minWidth: '35vw'});
   }
 
   processData(resource) {

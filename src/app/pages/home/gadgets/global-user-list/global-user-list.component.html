@@ -1,17 +1,21 @@
 <div class="controls" >
   <div class="left"></div>
   <div class="middle">
-    <label>
-      Search By:
-      <select title="Search by:" [(ngModel)]="searchBy">
-        <option value="title" selected>Title</option>
-        <option value="status">Status</option>
-        <option value="subject">Genre</option>
-      </select>
-    </label>
-    <input ngModel="txtSearchInput" type="search" title="search" (keyup)="handleSearchKeyup($event)"
-           placeholder="Search the {{firstName}}'s catalog" [(ngModel)]="txtSearchInput" class="txtSearchInput">
-    <button mat-icon-button (click)="handleSearch()"><span class="material-icons">search</span></button>
+    <div class="searchBySection">
+      <label>
+        Search By:
+        <select title="Search by:" [(ngModel)]="searchBy">
+          <option value="title" selected>Title</option>
+          <option value="status">Status</option>
+          <option value="subject">Genre</option>
+        </select>
+      </label>
+    </div>
+    <div class="searchInputSection">
+      <input ngModel="txtSearchInput" type="search" title="search" (keyup)="handleSearchKeyup($event)"
+             placeholder="Search the {{firstName}}'s catalog" [(ngModel)]="txtSearchInput" class="txtSearchInput">
+      <button mat-icon-button (click)="handleSearch()"><span class="material-icons">search</span></button>
+    </div>
   </div>
   <div class="right" style="padding: 10px;">
     <div>

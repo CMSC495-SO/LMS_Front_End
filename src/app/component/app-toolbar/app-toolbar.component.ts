@@ -26,6 +26,7 @@ export class AppToolbarComponent implements OnInit {
     const storageContainer = new StorageManager({});
     const dialogRef = this.dialog.open(LoginComponent, {
       data: {title: 'Sign In'},
+      width: '30vw',
       closeOnNavigation: false
     });
 

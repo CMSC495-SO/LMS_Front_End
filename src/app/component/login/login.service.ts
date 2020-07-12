@@ -1,5 +1,5 @@
 import {Injectable, Output} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs/index';
 import {EventEmitter} from '@angular/core';
 
@@ -16,12 +16,15 @@ export class LoginService {
     /*basePath: 'https://lib-management-backend.herokuapp.com/lib/library',*/
     findUser: '/users/checkUser',
     loginUrl: '/login',
-    signUp: '/users'
+    signUp: '/users',
+    getAllUsers: '/users/fetchUsers',
+    updateUser: '/users/updateUser',
+    removeUser: '/users/'
   };
 
   @Output() loggedIn: EventEmitter<any> = new EventEmitter();
 
-  user: object = null;
+  user: any = null;
   /*options: {
     headers?: HttpHeaders | {[header: string]: string | string[]},
     observe?: 'body' | 'events' | 'response',
@@ -31,6 +34,7 @@ export class LoginService {
     withCredentials?: boolean,
   }*/
   constructor(private http: HttpClient) {
+    this.setUserData();
   }
 
   checkUserNameValid(userNameParams) {
@@ -46,22 +50,44 @@ export class LoginService {
   }
 
   logoutUser() {
-    this.setUserData(null);
     const store = new StorageManager({});
     store.removeStorageItem('userdata');
+    this.setUserData();
     this.loggedIn.emit(null);
   }
 
-  setUserData(data) {
-    this.user = data;
+  updateUser(params) {
+    params.updatedBy = this.user.id;
+
+    return this.http.put(this.allLoginUrl.basePath + this.allLoginUrl.updateUser, params);
+  }
+
+  deleteUser(params) {
+    const httpParams = new HttpParams().set('id', params.itemId);
+
+    const options = { params: httpParams };
+
+    params.userId = this.user.id;
+
+    return this.http.delete(this.allLoginUrl.basePath + this.allLoginUrl.removeUser);
+  }
+
+  setUserData() {
+    this.user = this.getUserData();
   }
 
   getUserData() {
-    return this.user;
+    const store = new StorageManager({});
+
+    return store.getStorageItem('userdata') ? JSON.parse(store.getStorageItem('userdata')) : null;
   }
 
   isUserLoggedIn() {
     return !!this.user;
+  }
+
+  getAllUsers() {
+    return this.http.post(this.allLoginUrl.basePath + this.allLoginUrl.getAllUsers, {params: {userId: this.user.id}});
   }
 
   /*todo: Future use*/

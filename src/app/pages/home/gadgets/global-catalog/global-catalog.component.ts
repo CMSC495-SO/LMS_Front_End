@@ -6,13 +6,12 @@ import {BookData} from '../../../../tools/book-data';
 import {LoginService} from '../../../../component/login/login.service';
 import {LoginComponent} from '../../../../component/login/login.component';
 import {MatDialog} from '@angular/material/dialog';
-import {MessageDialogComponent} from '../../../../tools/message-dialog/message-dialog.component';
 import {StorageManager} from '../../../../tools/storageManager';
 
 @Component({
   selector: 'app-global-catalog',
   templateUrl: './global-catalog.component.html',
-  styleUrls: ['./global-catalog.component.css']
+  styleUrls: ['./global-catalog.component.css', '../../../../component/base-gadget/base-gadget.component.css']
 })
 export class GlobalCatalogComponent extends BaseGadgetComponent implements OnInit {
   allData = [];

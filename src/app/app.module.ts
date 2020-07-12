@@ -27,6 +27,7 @@ import {DemoMaterialModule} from './material-module';
 import {GlobalUserListComponent} from './pages/home/gadgets/global-user-list/global-user-list.component';
 import {MessageDialogComponent} from './tools/message-dialog/message-dialog.component';
 import { AdminUserManagerComponent } from './pages/home/gadgets/admin-user-manager/admin-user-manager.component';
+import { EditUserDialogComponent } from './component/edit-user-dialog/edit-user-dialog.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { AdminUserManagerComponent } from './pages/home/gadgets/admin-user-manag
     GlobalUserListComponent,
     MessageDialogComponent,
     AdminUserManagerComponent,
+    EditUserDialogComponent,
   ],
   entryComponents: [LoginComponent],
   imports: [

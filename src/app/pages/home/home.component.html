@@ -5,11 +5,14 @@
     </div>
     <div class="divider horizontal"></div>
     <div class="sidebar-body ">
-      <button class="button" (click)="openLibraryComponent('catalog')">Global Catalog</button>
-      <button class="button" *ngIf="loggedIn">{{userData.firstName}}'s Catalog</button>
-      <button class="button" *ngIf="user.isAdmin || user.isLibrarian" (click)="showFeatureUnavailable()">User Manager</button>
-      <button class="button" *ngIf="user.isAdmin || user.isLibrarian" (click)="showFeatureUnavailable()">Catalog Manager</button>
-      <button class="button" *ngIf="user.isAdmin || user.isLibrarian" (click)="showFeatureUnavailable()">Notification's Manager</button>
+      <div class="button-row">
+        <button [ngClass]="{'button': true, 'isActive': this.activeComponent === 'globalComponent'}" (click)="openLibraryComponent('globalComponent')">Global Catalog</button>
+      </div>
+      <div class="button-row" *ngFor="let item of sideBarButtons;">
+        <button [ngClass]="{'button': true, 'isActive': this.activeComponent === item.componentName}" *ngIf="item.isVisible;" (click)="openLibraryComponent(item.componentName);">
+          {{item.name}}
+        </button>
+      </div>
     </div>
   </div>
   <div class="render-container">

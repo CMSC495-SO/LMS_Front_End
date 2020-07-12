@@ -1,30 +1,32 @@
 <div class="toolbar">
-    <div class="left">
-        <div class="brand">
-            <a [routerLink]="['/']">
-                <h1 style="color: white;">{{title}}</h1>
-            </a>
-        </div>
-        <div class="page_routes">
-            <div class="link" role="button">
-                <a [routerLink]="['/']" class="button fancy-button">
-                    Home
-                </a>
-            </div>
-            <div class="link" role="button">
-                <a [routerLink]="['/about']" class="button fancy-button">
-                    About Us
-                </a>
-            </div>
-        </div>
+  <div class="left">
+    <div class="brand">
+      <a [routerLink]="['/']">
+        <h1 style="color: white;">{{title}}</h1>
+      </a>
     </div>
+    <div class="page_routes">
+      <div class="link" role="button">
+        <a [routerLink]="['/']" class="button fancy-button">
+          Home
+        </a>
+      </div>
+      <div class="link" role="button">
+        <a [routerLink]="['/about']" class="button fancy-button">
+          About Us
+        </a>
+      </div>
+    </div>
+  </div>
 
-    <div class="right">
-        <div class="link" role="button">
-            <!--<a class="button fancy-button" href="" (click)="openDialog('user-login-dialog')">
-               &lt;!&ndash; will need some kind of icon here &ndash;&gt; User login
-            </a>-->
-          <a href="#" (click)="openDialog()">Login/Signup</a>
-        </div>
+  <div class="right">
+    <div class="link" role="button">
+      <!--<a class="button fancy-button" href="" (click)="openDialog('user-login-dialog')">
+         &lt;!&ndash; will need some kind of icon here &ndash;&gt; User login
+      </a>-->
+      <a class="loginAnchorLink" href="#" (click)="openDialog()">
+            <span class="material-icons">account_box</span> <span>{{loginTitle}}</span>
+      </a>
     </div>
+  </div>
 </div>

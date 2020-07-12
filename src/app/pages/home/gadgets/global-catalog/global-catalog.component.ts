@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {BaseGadgetComponent} from '../../../../component/base-gadget/base-gadget.component';
 
-import {MatPaginator} from "@angular/material/paginator";
-import {GlobalCatalogService} from "./global-catalog.service";
-
-import * as sampleData from './sampleData.json';
-import {Input} from "@angular/compiler/src/core";
+import {GlobalCatalogService} from './global-catalog.service';
+import {BookData} from '../../../../tools/book-data';
+import {LoginService} from '../../../../component/login/login.service';
+import {LoginComponent} from '../../../../component/login/login.component';
+import {MatDialog} from '@angular/material/dialog';
+import {MessageDialogComponent} from '../../../../tools/message-dialog/message-dialog.component';
+import {StorageManager} from '../../../../tools/storageManager';
 
 @Component({
   selector: 'app-global-catalog',
@@ -13,64 +15,73 @@ import {Input} from "@angular/compiler/src/core";
   styleUrls: ['./global-catalog.component.css']
 })
 export class GlobalCatalogComponent extends BaseGadgetComponent implements OnInit {
+  allData = [];
   catalogData: BookData[] = [];
-  displayedColumns: any[] = ['id', 'title', 'author', 'categories', 'pages'];
-  pageSizeOptions: number[];
+  isLoggedIn;
 
-  txtSearchInput: string;
-  selectAll: boolean;
-  selected: object[];
+  @Input()
+  txtSearchInput = '';
+  @Input()
+  searchBy = 'title';
 
-  constructor(private service: GlobalCatalogService) {
-    super();
+  constructor(private service: GlobalCatalogService, private lgnService: LoginService, private d: MatDialog) {
+    super(d);
   }
 
   ngOnInit(): void {
-    this.service.getBooks().subscribe((response:any) => {
+    this.loadBookItems();
+    this.lgnService.loggedIn.subscribe((item) => {
+      this.isLoggedIn = !!item;
+    });
+    this.isLoggedIn = this.lgnService.isUserLoggedIn();
+  }
+
+  loadBookItems() {
+    this.service.getBooks().subscribe((response: any) => {
       this.service.setAllBooks(response);
-      this.processData(response);
+      this.allData = this.processData(response);
+      this.handleSearch();
     });
   }
 
-  handleSelectAll() {
+  handleSearch() {
+    this.catalogData = this.allData.filter((item) => {
+      if (!this.txtSearchInput.length) {
+        return item;
+      }
 
+      if (item.hasOwnProperty(this.searchBy) &&
+          item[this.searchBy].toLowerCase().indexOf(this.txtSearchInput.toLowerCase()) !== -1) {
+          return item;
+      }
+    });
   }
 
-  handleSelectionChange() {}
+  performLoginAction() {
+    this.dialog.open(LoginComponent, {});
+  }
 
-  handleSearch() {}
+  reserveItem() {
+    this.showAlertMessage('Feature currently unavailable', 'Feature Coming Soon');
+  }
 
-  processData(data) {
-    if (!data || !data.length) {
-      return;
-    }
+  checkOutItem(itemId) {
+    const storage = new StorageManager({});
+    const params = {
+      userId: JSON.parse(storage.getStorageItem('userdata')).userName,
+      bookId: itemId
+    };
 
-    this.catalogData = data.map((dataItem, index) => {
-      let item: BookData = {
-        id: index,
-        title: dataItem.title,
-        author: dataItem.author.firstName.length ? `${dataItem.author.firstName} ${dataItem.author.middleInitial}. ${dataItem.author.lastName}` : `${dataItem.author.lastName}`,
-        subject: dataItem.subject,
-        format: dataItem.format || '',
-        price: dataItem.price,
-        pages: (dataItem.numberOfPages).toString(),
-        dateAdded: dataItem.addedOn ? new Date(dataItem.addedOn).toString() : '-',
-        status: dataItem.status
-      };
+    console.log('trying to checkout %s', itemId);
+    this.service.checkoutItem(params).subscribe((response: any) => {
+      const isFailure = response.statusCode !== 200;
 
-      return item;
+      if (response.hasOwnProperty('message')) {
+        this.showAlertMessage(response.message, isFailure ? 'Error' : 'Success');
+      }
+
+      this.loadBookItems();
     });
   }
 }
 
-export interface BookData {
-  id: string;
-  title: string;
-  dateAdded: string;
-  author: string;
-  subject: string;
-  format: string;
-  price: string;
-  pages: string;
-  status: string;
-}

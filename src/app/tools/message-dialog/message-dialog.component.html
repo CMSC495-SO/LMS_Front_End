@@ -1,0 +1,9 @@
+<div mat-dialog-title>{{title}}</div>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <div style="padding: 10px;">{{message}}</div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions style="justify-content: flex-end;">
+  <button  mat-raised-button color="primary" (click)="close()" cdkFocusInitial>Ok</button>
+</div>

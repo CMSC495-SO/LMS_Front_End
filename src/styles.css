@@ -43,28 +43,6 @@ p {
   flex: 1;
 }
 
-.toolbar {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  background-color: var(--toolbar-background-color);
-  color: white;
-  font-weight: 600;
-}
-
-.toolbar img {
-  margin: 0 16px;
-}
-
-.toolbar #twitter-logo {
-  height: 40px;
-  margin: 0 16px;
-}
-
-.toolbar #twitter-logo:hover {
-  opacity: 0.8;
-}
-
 .content {
   display: flex;
   margin: 82px auto 32px;

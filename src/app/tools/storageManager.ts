@@ -3,21 +3,25 @@ export class StorageManager {
     useSession: true
   };
 
-  constructor(options){
+  constructor(options) {
     this.options = Object.assign(this.options, options);
   }
 
-  add(key:string, data:string) {
-    let storage = this.getStorage();
+  add(key: string, data: string) {
+    const storage = this.getStorage();
 
     storage.setItem(key, data);
   }
 
   getStorage() {
-    return this.options.useSession ? sessionStorage: localStorage
+    return this.options.useSession ? sessionStorage : localStorage;
   }
 
-  getStorageItem(key:string) {
+  getStorageItem(key: string) {
     return this.getStorage().getItem(key);
+  }
+
+  removeStorageItem(key) {
+    this.getStorage().removeItem(key);
   }
 }

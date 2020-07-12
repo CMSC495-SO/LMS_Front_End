@@ -1,0 +1,62 @@
+<div class="controls" >
+  <div class="left"></div>
+  <div class="middle">
+    <label>
+      Search By:
+      <select title="Search by:" [(ngModel)]="searchBy">
+        <option value="title" selected>Title</option>
+        <option value="status">Status</option>
+        <option value="subject">Genre</option>
+      </select>
+    </label>
+    <input ngModel="txtSearchInput" type="search" title="search" (keyup)="handleSearchKeyup($event)"
+           placeholder="Search the {{firstName}}'s catalog" [(ngModel)]="txtSearchInput" class="txtSearchInput">
+    <button mat-icon-button (click)="handleSearch()"><span class="material-icons">search</span></button>
+  </div>
+  <div class="right" style="padding: 10px;">
+    <div>
+      User catalog items found: {{userCatalogData && userCatalogData.length}}
+    </div>
+  </div>
+</div>
+<div class="gadget-content">
+  <div class="list-items">
+    <mat-card *ngIf="!userCatalogData || userCatalogData.length === 0; else elseBlock">
+      <mat-card-title>User Catalog Empty</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>Data Unavailable</mat-card-content>
+      <mat-card-actions></mat-card-actions>
+    </mat-card>
+    <ng-template #elseBlock>
+      <mat-card *ngFor="let item of userCatalogData;">
+        <mat-card-title>{{item.title}}</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="card-content-display">
+            <div class="left">
+              <div>Author: <span>{{item.author}}</span></div>
+              <div>Subject: <span>{{item.subject}}</span></div>
+              <div>Date Added: <span>{{item.dateAdded}}</span></div>
+              <div>Publisher: <span>-</span></div>
+            </div>
+            <div class="right">
+              <div>ISBN: <span>{{item.ISBN}}</span></div>
+              <div>Status: <span>{{item.status}}</span></div>
+              <div>Format: <span>{{item.format}}</span></div>
+              <div>Pages: <span>{{item.pages}}</span></div>
+              <div>Price: <span>{{item.price}}</span></div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+          <div class="item">
+            <button mat-raised-button color="primary" class="checkout" (click)="returnItem(item.id)">
+              Return
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </ng-template>
+  </div>
+</div>

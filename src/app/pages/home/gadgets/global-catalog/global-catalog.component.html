@@ -1,20 +1,36 @@
-<div class="controls" >
+<div class="controls">
   <div class="left"></div>
-  <div class="middle"><input ngModel="txtSearchInput" type="search" title="search" placeholder="Search the global catalog" [ngModel]="txtSearchInput" class="txtSearchInput"> <button (click)="handleSearch()">Search</button></div>
-  <div class="right"></div>
+  <div class="middle">
+    <label>
+      Search By:
+      <select title="Search by:" [(ngModel)]="searchBy">
+        <option value="title" selected>Title</option>
+        <option value="status">Status</option>
+        <option value="subject">Genre</option>
+      </select>
+    </label>
+    <input matInput [(ngModel)]="txtSearchInput" value="{{txtSearchInput}}" type="search" title="search"
+           placeholder="Search the global catalog" (keyup)="handleSearchKeyup($event)" class="txtSearchInput">
+    <button mat-icon-button (click)="handleSearch()" title="Search">
+      <span class="material-icons">search</span>
+    </button>
+  </div>
+  <div class="right">
+    <div>Catalog items found: {{catalogData && catalogData.length}}</div>
+  </div>
 </div>
 <div class="gadget-content">
   <div class="list-items">
-    <ng-template *ngIf="catalogData.length === 0; else elseBlock">
-      <mat-card>
-        <mat-card-title>No data found.</mat-card-title>
-        <mat-card-content>Data Unavailable</mat-card-content>
-        <mat-card-actions></mat-card-actions>
-      </mat-card>
-    </ng-template>
+    <mat-card *ngIf="!catalogData || catalogData.length === 0; else elseBlock">
+      <mat-card-title>No data found.</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>Data Unavailable</mat-card-content>
+      <mat-card-actions></mat-card-actions>
+    </mat-card>
     <ng-template #elseBlock>
       <mat-card *ngFor="let item of catalogData;">
         <mat-card-title>{{item.title}}</mat-card-title>
+        <mat-divider></mat-divider>
         <mat-card-content>
           <div class="card-content-display">
             <div class="left">
@@ -24,51 +40,40 @@
               <div>Publisher: <span>-</span></div>
             </div>
             <div class="right">
-              <div>ISBN: <span>-</span></div>
-              <div>Status: <span>{{item.status}}</span></div>
+              <div>ISBN: <span>{{item.ISBN}}</span></div>
+              <div>Status: <span class="item-is-{{item.status}}">{{item.status}}</span></div>
               <div>Format: <span>{{item.format}}</span></div>
               <div>Pages: <span>{{item.pages}}</span></div>
               <div>Price: <span>{{item.price}}</span></div>
             </div>
           </div>
         </mat-card-content>
+        <mat-divider></mat-divider>
         <mat-card-actions>
-          <!--buttons should be here-->
+          <div class="loggedInActions" *ngIf="isLoggedIn; else notLoggedIn">
+            <div class="item">
+              <button *ngIf="item.status === 'available'; else disableCheckout" mat-raised-button color="primary"
+                      class="checkout" (click)="checkOutItem(item.id)">
+                Check Out
+              </button>
+              <ng-template #disableCheckout>
+                <button mat-raised-button color="primary" disabled title="Item Unavailable">
+                  Check Out
+                </button>
+              </ng-template>
+            </div>
+            <div class="item">
+              <button mat-raised-button color="accent" (click)="reserveItem()" class="reserve">Reserve</button>
+            </div>
+          </div>
+          <ng-template #notLoggedIn>
+            <div class="nonLoggedInActions">
+              <button mat-raised-button color="primary" (click)="performLoginAction()">Login to access features.
+              </button>
+            </div>
+          </ng-template>
         </mat-card-actions>
       </mat-card>
     </ng-template>
   </div>
-  <!--<div class="grid">
-    <div class="mat-elevation-z8">
-      <table>
-        <thead>
-        <tr>
-          <ng-template *ngFor="let column of displayedColumns">
-            <th>
-              <ng-template *ngIf="column === 'id'; else elseBlock">
-                <input class="chkSelectAll" (change)="handleSelectAll()" type="checkbox" title="Select All"/>
-              </ng-template>
-              <ng-template #elseBlock>
-                {{column}}
-              </ng-template>
-            </th>
-          </ng-template>
-        </tr>
-        </thead>
-        <tbody>
-        <ng-template *ngIf="catalogData.length > 0; else elseRow">
-          <tr>
-          </tr>
-        </ng-template>
-        <ng-template #elseRow>
-          <tr>
-            <td colspan="8">
-              No Data Added
-            </td>
-          </tr>
-        </ng-template>
-        </tbody>
-      </table>
-    </div>
-  </div>-->
 </div>

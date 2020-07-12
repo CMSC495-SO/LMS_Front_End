@@ -39,8 +39,15 @@
   justify-content: space-between;
 }
 
+.component-container .sidebar-container .sidebar-body .button-row {
+  width: 100%;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .component-container .sidebar-container .sidebar-body button {
-  margin: 5px;
   background-color: transparent;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -48,6 +55,13 @@
   line-height: 30px;
   font-size: 12pt;
   padding: 10px;
+  width: 100%;
+}
+
+.component-container .sidebar-container .sidebar-body button.isActive {
+  background-color: #A4243B;
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 .component-container .sidebar-container .sidebar-body button:hover,

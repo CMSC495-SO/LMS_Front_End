@@ -1,17 +1,22 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable, throwError} from "rxjs/index";
+import {HttpClient} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs/index';
+import {environment} from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalCatalogService {
   allBookUrl = {
-    basePath: 'https://lib-management-backend.herokuapp.com/lib/library',
-    getBooks: '/books'
+    basePath: environment.baseUrl,
+    /*basePath: 'https://lib-management-backend.herokuapp.com/lib/library',*/
+    getBooks: '/books',
+    getUserCatalog: '/getUserReservations',
+    checkoutItem: '/book/checkout',
+    returnBookItem: '/book/return'
   };
 
-  allBooks:object[] = [];
+  allBooks: object[] = [];
 
   /*possible options for get*/
 
@@ -34,6 +39,18 @@ export class GlobalCatalogService {
     if (!this.allBooks) {
       this.allBooks = books;
     }
+  }
+
+  checkoutItem(paramData) {
+    return this.http.post(this.allBookUrl.basePath + this.allBookUrl.checkoutItem, paramData);
+  }
+
+  getCurrentUserCatalog(data) {
+    return this.http.get(this.allBookUrl.basePath + this.allBookUrl.getUserCatalog, {params: data});
+  }
+
+  returnBook(data) {
+    return this.http.post(this.allBookUrl.basePath + this.allBookUrl.returnBookItem, data);
   }
 
   getAllBooks() {

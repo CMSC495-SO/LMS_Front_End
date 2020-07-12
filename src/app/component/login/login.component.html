@@ -1,7 +1,7 @@
 <div mat-dialog-title>
   {{title}}
 </div>
-<div mat-dialog-content>
+<div mat-dialog-content *ngIf="!isLoggedIn; else signOutTemplate">
   <div class="tab-controls">
     <div [ngClass]="{'tab': true, 'active': activeTab === 'login'}" (click)="setActiveTab('login')">Login</div>
     <div [ngClass]="{'tab': true, 'active': activeTab === 'sign'}" (click)="setActiveTab('sign')">Sign Up</div>
@@ -20,8 +20,10 @@
   <div class="tab-content" *ngIf="activeTab === 'sign'">
     <div class="user-info-section">
       <div>
-        <input type="text" matInput class="txtUsername" (blur)="checkUserName()"  placeholder="UserName" [(ngModel)]="userName">
-        <div *ngIf="userName.length > 0" [ngClass]="{'validationBadge': true, 'isValid': userNameValid, 'notValid': !userNameValid}"></div>
+        <input type="text" matInput class="txtUsername" (blur)="checkUserName()" placeholder="UserName"
+               [(ngModel)]="userName">
+        <div *ngIf="userName.length > 0"
+             [ngClass]="{'validationBadge': true, 'isValid': userNameValid, 'notValid': !userNameValid}"></div>
       </div>
       <input type="password" matInput class="txtPassword" placeholder="Password" [(ngModel)]="password">
       <input type="text" matInput class="txtFirstName" placeholder="First Name" [(ngModel)]="firstName">
@@ -35,3 +37,14 @@
   </div>
 </div>
 
+<ng-template #signOutTemplate>
+  <div mat-dialog-content>
+      <div class="logout-section">
+        Would you like to log out?
+      </div>
+      <div class="button-group-area">
+        <button mat-button (click)="onClose()">Cancel</button>
+        <button mat-button (click)="performLogoutAction()">Logout</button>
+      </div>
+  </div>
+</ng-template>

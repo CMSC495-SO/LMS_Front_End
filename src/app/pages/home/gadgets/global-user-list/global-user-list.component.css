@@ -12,7 +12,7 @@
   overflow: hidden;
   background-color: white;
   margin-bottom: 5px;
-  border: 1px solid var(--main-background-color);
+  border: 1px solid #000;
   min-height: 40px;
   flex: .1;
   padding: 10px;
@@ -30,13 +30,6 @@
   padding-left: 10px;
 }
 
-.controls .middle select {
-  height: 30px;
-}
-
-.controls .right {
-  padding-top: 10px;
-}
 
 .controls .right div {
   height: 100%;

@@ -1,8 +1,8 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
-import {LoginService} from "./login.service";
-import {StorageManager} from "../../tools/storageManager";
+import {LoginService} from './login.service';
+import {StorageManager} from '../../tools/storageManager';
 
 export interface DialogData {
   title: string;
@@ -13,9 +13,12 @@ export interface DialogData {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   title = 'Sign in to Library';
   activeTab: string = 'login';
+
+  @Input()
+  isLoggedIn = false;
 
   emailAddress: string = '';
   firstName: string = '';
@@ -26,10 +29,12 @@ export class LoginComponent {
   message: string;
   userNameValid: boolean = true;
   loginFieldsValid: boolean = this.userNameValid && this.userName.length > 0 && this.password.length > 0;
-  signUpFieldsValid: boolean = this.loginFieldsValid && this.firstName.length > 0 && this.lastName.length > 0 && this.emailAddress.length > 0;
-  showMessage:boolean = false;
+  signUpFieldsValid: boolean = this.loginFieldsValid && this.firstName.length > 0
+    && this.lastName.length > 0 && this.emailAddress.length > 0;
+  showMessage = false;
 
-  constructor(private service: LoginService, public dialogRef: MatDialogRef<LoginComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  constructor(private service: LoginService, public dialogRef: MatDialogRef<LoginComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
   }
 
   resetFields() {
@@ -40,13 +45,27 @@ export class LoginComponent {
     this.lastName = '';
   }
 
+  ngOnInit() {
+    this.isLoggedIn = this.service.getUserData().hasOwnProperty('userName');
+  }
+
+  performLogoutAction() {
+    this.service.logoutUser();
+    this.service.loggedIn.emit(null);
+    this.dialogRef.close();
+  }
+
   performLoginAction() {
-    this.service.loginUser({userName:this.userName, password: this.password}).subscribe((response:any) => {
-      let storage = new StorageManager({});
+    this.service.loginUser({userName: this.userName, password: this.password}).subscribe((response: any) => {
+      const storage = new StorageManager({});
+
       if (!response.matched) {
         this.updateMessage(response.message);
-        return ;
+
+        return;
       }
+
+      this.service.loggedIn.emit(response.user);
       //need to store response data
       storage.add('userdata', JSON.stringify(response.user));
       this.dialogRef.close();
@@ -54,15 +73,23 @@ export class LoginComponent {
   }
 
   performUserSignUp() {
+    const data = {
+      userName: this.userName,
+      password: this.password,
+      emailAddress: this.emailAddress,
+      firstName: this.firstName,
+      lastName: this.lastName
+    };
     /*looking for a time stamp for when the user was added as well here.*/
-    this.service.signUp({userName:this.userName, password: this.password, emailAdress: this.emailAddress, firstName: this.firstName, lastName: this.lastName}).subscribe((response:any) => {
-      let storage = new StorageManager({});
+    this.service.signUp(data).subscribe((response: any) => {
+      const storage = new StorageManager({});
       if (!response.matched) {
         this.updateMessage(response.message);
-        return ;
+        return;
       }
       //need to store response data
       storage.add('userdata', JSON.stringify(response.user));
+      this.service.loggedIn.emit(response.user);
       this.dialogRef.close();
     });
   }
@@ -73,7 +100,7 @@ export class LoginComponent {
     _this.message = message;
     _this.showMessage = true;
 
-    setTimeout(function() {
+    setTimeout(() => {
       _this.showMessage = false;
     }, 15000);
   }

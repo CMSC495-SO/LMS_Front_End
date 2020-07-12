@@ -1,6 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable, throwError} from "rxjs/index";
+import {Injectable, Output} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs/index';
+import {EventEmitter} from '@angular/core';
+
+import {StorageManager} from '../../tools/storageManager';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +12,16 @@ import {Observable, throwError} from "rxjs/index";
 export class LoginService {
   [x: string]: any;
   allLoginUrl = {
-    basePath: 'https://lib-management-backend.herokuapp.com/lib/library',
+    basePath: environment.baseUrl,
+    /*basePath: 'https://lib-management-backend.herokuapp.com/lib/library',*/
     findUser: '/users/checkUser',
     loginUrl: '/login',
     signUp: '/users'
   };
 
-  user:object = null;
+  @Output() loggedIn: EventEmitter<any> = new EventEmitter();
 
-  /*possible options for get*/
-
+  user: object = null;
   /*options: {
     headers?: HttpHeaders | {[header: string]: string | string[]},
     observe?: 'body' | 'events' | 'response',
@@ -29,34 +33,39 @@ export class LoginService {
   constructor(private http: HttpClient) {
   }
 
-  checkUserNameValid(userNameParams: { userName: string; }) {
-    return this.http.get(this.allLoginUrl.basePath + this.allLoginUrl.findUser, {params: userNameParams})
+  checkUserNameValid(userNameParams) {
+    return this.http.get(this.allLoginUrl.basePath + this.allLoginUrl.findUser, {params: userNameParams});
   }
 
   loginUser(data: { userName: string; password: string; }) {
     return this.http.post(this.allLoginUrl.basePath + this.allLoginUrl.loginUrl, {params: data});
   }
 
-  signUp(data: {
-      userName: string;
-      // return an observable with a user-facing error message
-      password: string; emailAdress: string; firstName: string; lastName: string;
-    }){
-    return this.http.post(this.allLoginUrl.basePath + this.allLoginUrl.signUp, {params: data}); //signUpUrl
+  signUp(data){
+    return this.http.post(this.allLoginUrl.basePath + this.allLoginUrl.signUp, {params: data});
   }
 
-  setUserData(data: object) {
-    if (!this.user) {
-      this.user = data;
-    }
+  logoutUser() {
+    this.setUserData(null);
+    const store = new StorageManager({});
+    store.removeStorageItem('userdata');
+    this.loggedIn.emit(null);
+  }
+
+  setUserData(data) {
+    this.user = data;
   }
 
   getUserData() {
     return this.user;
   }
 
+  isUserLoggedIn() {
+    return !!this.user;
+  }
+
   /*todo: Future use*/
-  handleError(response: { error: { message: any; }; status: any; }) {
+  handleError(response) {
     if (response.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', response.error.message);

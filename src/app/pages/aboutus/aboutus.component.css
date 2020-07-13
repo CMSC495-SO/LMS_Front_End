@@ -1,3 +1,15 @@
-.about-container{
-    color: white
+:host {
+  height: 100%;
+  padding: 20px;
+}
+
+.about-container {
+  color: white;
+  justify-content: space-between;
+  flex-direction: column;
+
+}
+
+mat-card {
+  margin-bottom: 10px;
 }

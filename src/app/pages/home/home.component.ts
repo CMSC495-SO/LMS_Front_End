@@ -79,11 +79,6 @@ export class HomeComponent implements OnInit {
           isVisible: this.userData && this.userData.userName.length
         },
         {
-          name: 'Admin Book Manager',
-          componentName: 'bookManager',
-          isVisible: this.userData && this.userData.hasOwnProperty('roles') ? this.userData.roles.includes('admin' || 'librarian') : false
-        },
-        {
           name: 'Admin User Manager',
           componentName: 'userManager',
           isVisible: this.userData && this.userData.hasOwnProperty('roles') ?

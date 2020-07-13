@@ -102,7 +102,7 @@ export class AdminUserManagerComponent extends BaseGadgetComponent implements On
   handleSearch() {
     this.renderData = this.allUsers.filter((item) => {
       if (this.txtSearchUsers && this.txtSearchUsers.length) {
-        if (item[this.searchBy].indexOf(this.txtSearchUsers) !== -1) {
+        if (item[this.searchBy].toLowerCase().indexOf(this.txtSearchUsers.toLowerCase()) !== -1) {
           return item;
         }
       } else {

@@ -65,7 +65,6 @@ export class HomeComponent implements OnInit {
   }
 
   closeUserComponent() {
-    this.activeComponent = 'globalCatalog';
     this.openLibraryComponent('globalCatalog');
     this.setSidebarButtons();
   }
@@ -81,8 +80,7 @@ export class HomeComponent implements OnInit {
         {
           name: 'Admin User Manager',
           componentName: 'userManager',
-          isVisible: this.userData && this.userData.hasOwnProperty('roles') ?
-            this.userData.roles.indexOf('admin') || this.userData.roles.indexOf('librarian') : false
+          isVisible: this.userData && this.userData.hasOwnProperty('roles') ? this.userData.roles.indexOf('admin') !== -1 : false
         }
       ];
 

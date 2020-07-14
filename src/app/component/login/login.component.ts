@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit {
       this.service.loggedIn.emit(response.user);
       //need to store response data
       storage.add('userdata', JSON.stringify(response.user));
+      this.service.setUserData();
       this.dialogRef.close();
     });
   }
